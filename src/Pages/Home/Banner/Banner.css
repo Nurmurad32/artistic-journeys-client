@@ -1,0 +1,26 @@
+.bg-img {
+    background-image: url('../../../assets/hero_home_01.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.banner-text {
+    transition: all .5s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* margin-left: -3%; */
+    width: 60%;
+    /* border-radius: 10px; */
+    /* background: #000; */
+    color: black;
+    padding: 10px;
+    font-size: 12px;
+    text-align: center;
+    /* opacity: 0.25; */
+    transition: opacity .35s ease-in-out;
+}
