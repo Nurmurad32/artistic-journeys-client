@@ -94,7 +94,7 @@ const CheckoutForm = ({ cart, price }) => {
                     if (res.data.insertResult.insertedId) {
                         // display confirm
                         Swal.fire({
-                            title: `${cart.price} in successfully`,
+                            title: `${cart.price}$ payment is success. `,
                             showClass: {
                               popup: 'animate__animated animate__fadeInDown'
                             },
@@ -112,7 +112,7 @@ const CheckoutForm = ({ cart, price }) => {
 
     return (
         <>
-            <form className="w-2/3 m-8 mx-auto" onSubmit={handleSubmit}>
+            <form className="w-2/3 m-8 mx-auto text-center" onSubmit={handleSubmit}>
                 <CardElement
                     options={{
                         style: {
@@ -129,12 +129,12 @@ const CheckoutForm = ({ cart, price }) => {
                         },
                     }}
                 />
-                <button className="btn btn-primary btn-sm mt-4 text-center" type="submit" disabled={!stripe || !clientSecret || processing}>
+                <button className="btn btn-wide hover:bg-[#3d98b5] bg-[#D05A32] text-white mx-auto flex justify-center my-10" type="submit" disabled={!stripe || !clientSecret || processing}>
                     Pay
                 </button>
             </form>
             {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
-            {transactionId && <p className="text-green-500 ml-8">Transaction complete with transactionId: {transactionId}</p>}
+            {/* {transactionId && <p className="text-green-500 ml-8">Transaction complete with transactionId: {transactionId}</p>} */}
         </>
     );
 };

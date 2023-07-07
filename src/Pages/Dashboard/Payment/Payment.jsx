@@ -5,6 +5,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 // import useCart from "../../../hooks/useCart";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 
 // TODO:  Provide Publishable Key
@@ -27,8 +28,11 @@ const Payment = () => {
     console.log(location)
     return (
         <div>
-            <SectionTitle subHeading={"Please Process"} heading={"Payment"}></SectionTitle>
-            <h3>You Need to Pay: {location?.state?.price}</h3>
+            <Helmet>
+                <title>Artistic Journeys || Payment</title>
+            </Helmet>
+            <SectionTitle heading={"Payment"}></SectionTitle>
+            <h3 className="text-center">You Need to Pay: <span className="text-[#D05A32]">${location?.state?.price}</span> </h3>
             <Elements stripe={stripePromise}>
                 <CheckoutForm cart={cart} price={location?.state?.price}/>
             </Elements>

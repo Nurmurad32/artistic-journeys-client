@@ -4,9 +4,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
+import PageTitle from '../../Components/PageTitle/PageTitle'; 
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import { AiOutlineEye , AiOutlineEyeInvisible } from "react-icons/ai";
+import { useState } from 'react';
 
 const SignUp = () => {
     const navigate = useNavigate()
+    const [axiosSecure] = useAxiosSecure()
+    const [showPass , setShowPass] = useState(false)
+
+    console.log('show pass', showPass)
 
     const { register, reset, watch, handleSubmit, formState: { errors }, } = useForm()
     const { createUser, updateUserProfile } = useAuth();
@@ -23,20 +31,21 @@ const SignUp = () => {
                 updateUserProfile(data.name, data.photoURL)
                     .then(result => {
                         // User Info send to MongoDB
-                        const saveUser = { name: data.name, email: (data.email.toLowerCase()), gender: data.gender, role: 'student' }
+                        const saveUser = { name: data.name, email: (data.email.toLowerCase()), gender: data.gender, role: 'student', image: data.photoURL}
 
                         console.log(saveUser);
 
-                        fetch('http://localhost:3000/users', {
-                            method: 'POST',
-                            headers: {
-                                'content-type': 'application/json',
-                            },
-                            body: JSON.stringify(saveUser)
-                        })
-                            .then(res => res.json())
-                            .then(data => {
-                                if (data.insertedId) {
+                        // fetch('http://localhost:3000/users', {
+                        //     method: 'POST',
+                        //     headers: {
+                        //         'content-type': 'application/json',
+                        //     },
+                        //     body: JSON.stringify(saveUser)
+                        // })
+                        //     .then(res => res.json())
+                        axiosSecure.post('/users', saveUser)
+                            .then(res => {
+                                if (res.data.insertedId) {
                                     reset()
                                     Swal.fire({
                                         position: 'top-center',
@@ -62,14 +71,15 @@ const SignUp = () => {
             <Helmet>
                 <title>Artistic Journeys || Sign Up</title>
             </Helmet>
-            <div className="hero py-20">
-                <div className="hero-content flex-col w-1/2">
-                    <div className="text-center lg:text-left">
+            <PageTitle heading={"Sign Up"} subHeading={"Home > Register"}></PageTitle>
+            <div className="hero pb-20">
+                <div className="hero-content flex-col w-4/6">
+                    <div className="text-center ">
                         <h1 className="text-5xl font-bold my-8">Register</h1>
                     </div>
                     <div className="card flex-shrink-0 w-full  shadow-2xl bg-base-100">
                         <div className="card-body">
-                            <form onSubmit={handleSubmit(onSubmit)}>
+                            <form onSubmit={handleSubmit(onSubmit)} className='my-o'>
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Name</span>
@@ -90,8 +100,8 @@ const SignUp = () => {
                                     <label className="label">
                                         <span className="label-text">Select Your Gender</span>
                                     </label>
-                                    <select defaultValue={"Choose one"} {...register("gender", { required: true })} className="select select-bordered">
-                                        <option disabled>Choose One</option>
+                                    <select defaultValue={" "} {...register("gender", { required: true })} className="select select-bordered">
+                                        <option>Choose One</option>
                                         <option>Male</option>
                                         <option>Female</option>
                                         <option>Others</option>
@@ -102,8 +112,11 @@ const SignUp = () => {
                                     <label className="label">
                                         <span className="label-text">Password</span>
                                     </label>
-                                    <input type="password" placeholder="password" className="input input-bordered"
+                                    <label className='flex self-center relative'>
+                                        <input type={`${ showPass === false ? "text" : "password"}`} placeholder="password" className="input input-bordered"
                                         {...register("password", { required: true, minLength: 6, maxLength: 20, pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[a-z])/ })} />
+                                        <p className='flex absolute right-0 bottom-8 z-10 pr-4'>{ showPass === true ? <AiOutlineEyeInvisible onClick={()=>setShowPass(!showPass)}/> : <AiOutlineEye onClick={()=>setShowPass(!showPass)}/>}</p>
+                                        </label>
                                     {errors.password?.type === 'required' && <span className='text-red-600'>Password is required</span>}
                                     {errors.password?.type === 'minLength' && <span className='text-red-600'>Password must be 6 characters</span>}
                                     {errors.password?.type === 'pattern' && <span className='text-red-600'>Password must be contain one uppercase, one lowercase, and one special characters</span>}
@@ -134,11 +147,11 @@ const SignUp = () => {
                                 </div>
                                 <div className="form-control mt-6">
                                     {/* <button className="btn btn-primary">Login</button> */}
-                                    <input className="btn bg-[#EE5B54] hover:outline-[#EE5B54]" type="submit" value="Register" />
+                                    <input className="btn hover:bg-[#3d98b5] bg-[#D05A32] text-white" type="submit" value="Register" />
                                 </div>
                             </form>
                             <SocialLogin></SocialLogin>
-                            <p className="text-center"><small className="px-4">Already have an account?</small> <Link to="/login">Login</Link></p>
+                            <p className="text-center"><small className="px-4">Already have an account?</small> <Link className="btn hover:bg-[#D05A32] bg-[#3d98b5] text-white" to="/login">Login</Link></p>
                         </div>
                     </div>
                 </div>

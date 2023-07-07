@@ -3,6 +3,7 @@ import SectionTitle from "../../../../Components/SectionTitle/SectionTitle";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 const img_hosting_token = import.meta.env.VITE_Image_Upload_Token;
 
@@ -63,8 +64,10 @@ const AddClass = () => {
     }
     return (
         <div className="w-full px-10">
-            <SectionTitle subHeading={" "} heading={"Add Your Class"}>
-            </SectionTitle>
+            <Helmet>
+                <title>Artistic Journeys || Add A Class</title>
+            </Helmet>
+            <SectionTitle heading={"Add A Class"}></SectionTitle>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-control w-full ">
                     <label className="label">

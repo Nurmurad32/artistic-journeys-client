@@ -4,6 +4,8 @@ import useAuth from '../../../../hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import { FaTrashAlt } from 'react-icons/fa';
+import { Helmet } from 'react-helmet-async';
+import SectionTitle from '../../../../Components/SectionTitle/SectionTitle';
 
 const PendingClasses = () => {
     const [axiosSecure] = useAxiosSecure();
@@ -51,10 +53,11 @@ const PendingClasses = () => {
     }
     return (
         <div className='w-full'>
-            <div className="flex justify-between px-8">
-                <h3 className="text-3xl font-semibold my-4">Total Classes: {classes.length}</h3>
-                <h3 className="text-3xl font-semibold my-4">Need to Approved: {pendingClasses.length}</h3>
-            </div>
+            <Helmet>
+                <title>Artistic Journeys || Pending Classes</title>
+            </Helmet>
+            <SectionTitle heading={"Waiting For Approval"}></SectionTitle>
+            
 
             <div className="">
                 <table className="table">

@@ -3,6 +3,8 @@ import useCart from "../../../../hooks/useCart";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import SectionTitle from "../../../../Components/SectionTitle/SectionTitle";
 
 const SelectedClass = () => {
     const [axiosSecure] = useAxiosSecure();
@@ -43,10 +45,14 @@ const SelectedClass = () => {
     }
     return (
         <div className='w-full'>
-            <div className="flex justify-between px-8">
+            <Helmet>
+                <title>Artistic Journeys || Selected Classes</title>
+            </Helmet>
+            <SectionTitle heading={"My Selected Class"}></SectionTitle>
+            {/* <div className="flex justify-between px-8">
                 <h3 className="text-3xl font-semibold my-4">Total Classes: {cart.length}</h3>
 
-            </div>
+            </div> */}
 
             <div className="">
                 <table className="table">

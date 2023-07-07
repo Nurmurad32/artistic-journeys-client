@@ -8,7 +8,7 @@ const useAdminOrInstructor = () => {
 
   const { data: isAdminOrInstructor, isLoading: isAdminOrInstructorLoading } = useQuery({
     queryKey: ['isAdminOrInstructor', user?.email],
-    enabled: !loading,
+    enabled: user?.email && !loading,
     queryFn: async () => {
       const res = await axiosSecure.get(`/users/role/${user?.email}`);
       // console.log('isAdminOrInstructor response', res);

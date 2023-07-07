@@ -3,6 +3,8 @@ import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import useAuth from "../../../../hooks/useAuth";
 import { FaTrashAlt } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
+import SectionTitle from "../../../../Components/SectionTitle/SectionTitle";
 
 const InstructorClasses = () => {
     const [axiosSecure] = useAxiosSecure();
@@ -50,9 +52,13 @@ const InstructorClasses = () => {
     }
     return (
         <div className='w-full'>
+            <Helmet>
+                <title>Artistic Journeys || All My Classes</title>
+            </Helmet>
+            <SectionTitle heading={"My Classes"}></SectionTitle>
             <div className="flex justify-between px-8">
-                <h3 className="text-3xl font-semibold my-4">Total Classes: {classes.length}</h3>
-                <h3 className="text-3xl font-semibold my-4">Need to Approved: {filterMyClasses.length}</h3>
+                <h3 className="text-xl font-semibold my-4 bg-green-100 p-4 rounded-xl">Total Classes: {classes.length}</h3>
+                <h3 className="text-xl font-semibold my-4 bg-red-500 p-4 rounded-xl">Waiting for Approval: {filterMyClasses.length}</h3>
             </div>
 
             <div className="">

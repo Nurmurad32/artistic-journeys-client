@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { FaTrashAlt, FaUserShield } from 'react-icons/fa';
+import { FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../../hooks/useAxiosSecure';
+import { Helmet } from 'react-helmet-async';
+import SectionTitle from '../../../../Components/SectionTitle/SectionTitle';
 
 const AllUsers = () => {
     const [axiosSecure] = useAxiosSecure();
@@ -17,22 +19,15 @@ const AllUsers = () => {
         console.log("Role:", updateRole);
 
         const updateUserRole = { role: updateRole }
-        fetch(`http://localhost:3000/users/admin/${user._id}`, {
-            method: 'PATCH',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(updateUserRole)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                if (data.modifiedCount) {
+        axiosSecure.patch(`/users/admin/${user._id}`, updateUserRole)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount) {
                     refetch();
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
-                        title: `${user.name} is an Admin Now!`,
+                        title: `${user.name} is an ${updateRole} Now!`,
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -71,13 +66,18 @@ const AllUsers = () => {
     }
     return (
         <div className='w-full'>
-            <h3 className="text-3xl font-semibold my-4">Total User: {users.length}</h3>
+            <Helmet>
+                <title>Artistic Journeys || Manage Users</title>
+            </Helmet>
+            <SectionTitle heading={"Admin - Manage Users"}></SectionTitle>
+            {/* <h3 className="text-3xl font-semibold my-4">Total User: {users.length}</h3> */}
             <div className="">
                 <table className="table">
                     {/* head */}
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>image</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
@@ -90,12 +90,19 @@ const AllUsers = () => {
                             users.map((user, index) =>
                                 <tr key={user._id}>
                                     <th>{index + 1}</th>
+                                    <td>
+                                        <div className="avatar">
+                                            <div className="mask mask-squircle w-12 h-12">
+                                                <img src={user?.image} alt="User Image" />
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td className="dropdown dropdown-hover">
                                         {user.role === "student" && (
                                             <>
-                                                <label tabIndex={0} className="btn m-1">{user.role}</label>
+                                                <label tabIndex={0} className="btn m-1 bg-">{user.role}</label>
                                                 <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                                                     <li>
                                                         <button onClick={() => handleRole(user, "admin")} className="btn btn-ghost bg-white text-black">admin</button>
@@ -109,7 +116,7 @@ const AllUsers = () => {
 
                                         {user.role === "admin" && (
                                             <>
-                                                <label tabIndex={0} className="btn m-1">{user.role}</label>
+                                                <label tabIndex={0} className="btn m-1 bg-slate-400">{user.role}</label>
                                                 <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                                                     <li>
                                                         <button onClick={() => handleRole(user, "student")} className="btn btn-ghost bg-white text-black">student</button>
@@ -123,7 +130,7 @@ const AllUsers = () => {
 
                                         {user.role === "instructor" && (
                                             <>
-                                                <label tabIndex={0} className="btn m-1">{user.role}</label>
+                                                <label tabIndex={0} className="btn m-1 bg-green-400">{user.role}</label>
                                                 <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                                                     <li>
                                                         <button onClick={() => handleRole(user, "admin")} className="btn btn-ghost bg-white text-black">admin</button>

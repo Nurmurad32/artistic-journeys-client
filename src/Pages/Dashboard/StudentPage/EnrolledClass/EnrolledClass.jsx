@@ -1,4 +1,6 @@
+import { Helmet } from "react-helmet-async";
 import usePayment from "../../../../hooks/usePayment";
+import SectionTitle from "../../../../Components/SectionTitle/SectionTitle";
 
 const EnrolledClass = () => {
     const [payments, refetch] = usePayment()
@@ -6,9 +8,12 @@ const EnrolledClass = () => {
     console.log(payments)
     return (
         <div className='w-full'>
-            <div className="flex justify-between px-8">
-                <h3 className="text-3xl font-semibold my-4">Total Classes: {payments.length}</h3>
-
+            <Helmet>
+                <title>Artistic Journeys || Enrolled Classes</title>
+            </Helmet>
+            <SectionTitle heading={"My Enrolled Class"}></SectionTitle>
+            <div className="flex justify-center px-8">
+                <h3 className="text-xl font-semibold my-4 bg-green-100 p-4 rounded-xl">Total Enrolled Classes: {payments.length}</h3>
             </div>
 
             <div className="">

@@ -19,6 +19,9 @@ import PendingClasses from "../Pages/Dashboard/InstructorPage/PendingClasses/Pen
 import SelectedClass from "../Pages/Dashboard/StudentPage/SelectedClass/SelectedClass";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import EnrolledClass from "../Pages/Dashboard/StudentPage/EnrolledClass/EnrolledClass";
+import AdminRoute from "./AdminRoute";
+import InstructorRoute from './InstructorRoute'
+import NotFound from "../Pages/404Page/NotFound";
 
 export const router = createBrowserRouter([
         {
@@ -58,32 +61,32 @@ export const router = createBrowserRouter([
             // Admin Routes
             {
               path: "adminhome",
-              element: <AdminHome></AdminHome>,
+              element: <AdminRoute><AdminHome></AdminHome></AdminRoute>,
             },
             {
               path: "allusers",
-              element: <AllUsers></AllUsers>,
+              element: <AdminRoute><AllUsers></AllUsers></AdminRoute>,
             },
             {
               path: "manageclasses",
-              element: <ManageClasses></ManageClasses>,
+              element: <AdminRoute><ManageClasses></ManageClasses></AdminRoute>,
             },
             // Instructor Routes
             {
               path: "instructorhome",
-              element: <InstructorHome></InstructorHome>,
+              element: <InstructorRoute><InstructorHome></InstructorHome></InstructorRoute>,
             },
             {
               path: "addclass",
-              element: <AddClass></AddClass>,
+              element: <InstructorRoute><AddClass></AddClass></InstructorRoute>,
             },
             {
               path: "instructorclasses",
-              element: <InstructorClasses></InstructorClasses>,
+              element: <InstructorRoute><InstructorClasses></InstructorClasses></InstructorRoute>,
             },
             {
               path: "instructorpendingclasses",
-              element: <PendingClasses></PendingClasses>,
+              element: <InstructorRoute><PendingClasses></PendingClasses></InstructorRoute>,
             },
             // Student Routes
             {
@@ -102,6 +105,6 @@ export const router = createBrowserRouter([
         },
         {
           path: '*',
-          element: <p>Not Found</p>
+          element: <NotFound></NotFound>
         }
       ]); 

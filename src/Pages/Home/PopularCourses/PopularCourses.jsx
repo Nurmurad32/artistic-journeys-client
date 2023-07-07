@@ -1,25 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import ClassesCard from "../../Shared/ClassesCard/ClassesCard";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import PageTitle from "../../Components/PageTitle/PageTitle";
-import ClassesCard from "../Shared/ClassesCard/ClassesCard";
-import { Helmet } from "react-helmet-async";
+import useAuth from "../../../hooks/useAuth";
 import { Bounce, Fade } from "react-awesome-reveal";
 
-const Classes = () => {
+
+
+const PopularCourses = () => {
     const { user } = useAuth();
-    // const [, refetch] = useCart();
+    const [axiosSecure] = useAxiosSecure();
     const navigate = useNavigate();
     const location = useLocation();
-    const [axiosSecure] = useAxiosSecure();
+
 
     const { data: classes = [], refetch } =
         useQuery(['classes'], async () => {
-            const res = await axiosSecure.get('/classes')
-            console.log(res)
-            return res.data;
+            const res = await axiosSecure.get('/class-status')
+            const result = (res.data)
+            return result;
 
         })
 
@@ -68,33 +68,28 @@ const Classes = () => {
         }
     }
 
-    const approvedClasses = classes.filter(cls => cls.status === 'approved')
-    console.log(approvedClasses)
     return (
-        <div className="mb-16">
-            <Helmet>
-                <title>Artistic Journeys || All Courses</title>
-            </Helmet>
-            <PageTitle heading={"Classes"} subHeading={"Home > Classes"}></PageTitle>
+        <div>
             <div className="text-center my-16">
-                <Bounce>
-                    <p><small className="text-[#FCAF5D] text-xl">All Our</small></p>
-                    <h2 className="text-4xl"> Courses</h2>
-                </Bounce>
+                <p><small className="text-[#FCAF5D] text-xl">Our</small></p>
+                <Bounce><h2 className="text-4xl">Popular Courses</h2></Bounce>
+                
             </div>
+            <Fade>
+            <div className="grid grid-cols-3 gap-6">
+                {
+                    classes.slice(0, 6).map(cls =>
+                        <ClassesCard key={cls.classItemId} cls={cls.classItem} handleAddToCard={handleAddToCard}></ClassesCard>
+                    )
+                }
 
-            <div className="grid grid-cols-3 gap-8">
-                <Fade delay={2}>
-                    {
-                        approvedClasses.map(cls =>
-                            <ClassesCard key={cls._id} cls={cls} handleAddToCard={handleAddToCard}></ClassesCard>
-                        )
-                    }
-                </Fade>
             </div>
+            </Fade>
+           
+            <button className="btn btn-wide hover:bg-[#3d98b5] bg-[#D05A32] text-white mx-auto flex justify-center my-10"><Link to="/classes">View all Classes</Link></button>
 
         </div>
     );
 };
 
-export default Classes;
+export default PopularCourses;

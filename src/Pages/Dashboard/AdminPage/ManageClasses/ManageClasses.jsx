@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
+import { Helmet } from "react-helmet-async";
+import SectionTitle from "../../../../Components/SectionTitle/SectionTitle";
 
 const ManageClasses = () => {
     const [axiosSecure] = useAxiosSecure();
@@ -13,23 +15,17 @@ const ManageClasses = () => {
         })
 
     const handleRole = (cls, updateStatus) => {
+        console.log(cls, updateStatus, cls._id)
         const updateClassStatus = { status: updateStatus }
-        fetch(`http://localhost:3000/classes/admin/${cls._id}`, {
-            method: 'PATCH',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(updateClassStatus)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                if (data.modifiedCount) {
+        axiosSecure.patch(`/classes/admin/${cls._id}`, updateClassStatus)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
                     refetch();
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
-                        title: "Change Status to Approved",
+                        title: `${cls.title} Class is Approved`,
                         showConfirmButton: false,
                         timer: 1500
                     })
@@ -71,16 +67,20 @@ const ManageClasses = () => {
     console.log(filterPending)
     return (
         <div className='w-full'>
+            <Helmet>
+                <title>Artistic Journeys || Manage Classes</title>
+            </Helmet>
+            <SectionTitle heading={"Admin - Manage Classes"}></SectionTitle>
             <div className="flex justify-between px-8">
-                <h3 className="text-3xl font-semibold my-4">Total Classes: {classes.length}</h3>
-                <h3 className="text-3xl font-semibold my-4">Need to Approved: {filterPending.length}</h3>
+                <h3 className="text-xl font-semibold my-4 bg-green-100 p-4 rounded-xl">Total Classes: {classes.length}</h3>
+                <h3 className="text-xl font-semibold my-4 bg-red-500 p-4 rounded-xl">Need to Approved: {filterPending.length}</h3>
             </div>
 
             <div className="">
-                <table className="table">
+                <table className="table mt-8">
                     {/* head */}
                     <thead>
-                        <tr>
+                        <tr className="text-xl ">
                             <th>#</th>
                             <th>Image</th>
                             <th>Title</th>
@@ -94,29 +94,29 @@ const ManageClasses = () => {
                     <tbody>
                         {/* row 1 */}
                         {
-                            classes.map((cls, index) => <>
+                            classes.map((cls, index) =>
                                 <tr key={cls._id}>
                                     <th>{index + 1}</th>
                                     <td>
                                         <div className="avatar">
                                             <div className="mask mask-squircle w-12 h-12">
-                                                <img src={cls.image} alt="Avatar Tailwind CSS Component" />
+                                                <img src={cls.image} alt="Image of this class" />
                                             </div>
                                         </div>
                                     </td>
                                     <td>{cls.title}</td>
                                     <td>{cls.instructoremail}</td>
-                                    <td>{cls.seat}</td>
+                                    <td className={`${cls.seat === 0 && "text-red-500"}`}>{cls.seat}</td>
                                     <td>{cls.price}</td>
-                                    <td className="dropdown dropdown-hover">
+                                    <td className="dropdown dropdown-hover flex self-center items-center">
                                         {cls.status === 'approved'
-                                            ? <label tabIndex={0} className="btn m-1 bg-green-600 text-white">{cls.status}</label>
+                                            ? <label tabIndex={0} className="btn btn-ghost m-1 bg-green-600 text-white">{cls.status}</label>
                                             :
                                             <>
-                                                <label tabIndex={0} className="btn m-1 bg-orange-600 text-white">{cls.status}</label>
+                                                <label tabIndex={0} className="btn btn-ghost m-1 bg-orange-600 text-white">{cls.status}</label>
                                                 <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                                                     <li>
-                                                        <button onClick={() => handleRole(cls, "approved")} className="btn btn-ghost bg-white text-black">Approved</button>
+                                                        <button onClick={() => handleRole(cls, "approved")} className="btn btn-ghost bg-white text-black flex pt-4">Approved</button>
                                                     </li>
                                                 </ul>
                                             </>
@@ -126,7 +126,7 @@ const ManageClasses = () => {
                                         <button onClick={() => handleDelete(cls)} className="btn btn-ghost bg-red-600 text-white"><FaTrashAlt></FaTrashAlt></button>
                                     </td>
                                 </tr>
-                            </>
+
                             )
                         }
 

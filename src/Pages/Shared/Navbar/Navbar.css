@@ -1,0 +1,7 @@
+.menu li a.active{
+    background-color: rgb(160, 33, 33);
+}
+.menu li a{
+    /* background-color: transparent; */
+    font-weight: 500;
+}
