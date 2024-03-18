@@ -52,8 +52,8 @@ const AuthProvider = ({ children }) => {
 
             // Get & Set Token
             if (currentUser) {
-                // axios.post('https://artistic-journeys-server.vercel.app/jwt', {email: currentUser.email})
-                axios.post('http://localhost:3000/jwt', { email: currentUser.email })
+                axios.post('https://artistic-journeys-server.vercel.app/jwt', {email: currentUser.email})
+                // axios.post('http://localhost:3000/jwt', { email: currentUser.email })
                     .then(res => {
                         // console.log(data.data.token)
                         if (res.data.token) {

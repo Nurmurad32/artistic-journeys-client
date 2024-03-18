@@ -14,17 +14,17 @@ const useCart = () => {
         queryFn: async() => {
             const res = await axiosSecure.get(`/carts?email=${user?.email}`)
             console.log('res from axios', res)
-            
+            refetch()
             return res.data;
         },
         
     })
 
     useEffect(() => {
-        if (user?.email && !loading) {
+        if (user?.email) {
           refetch(); // Trigger the query when user data is available
         }
-      }, [user?.email, loading, refetch]);
+      }, [user?.email, refetch]);
 
     return [cart, refetch]
 };
