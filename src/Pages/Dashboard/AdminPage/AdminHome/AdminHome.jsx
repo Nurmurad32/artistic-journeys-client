@@ -21,7 +21,7 @@ const AdminHome = () => {
         })
 
     return (
-        <div>
+        <div className='px-4'>
             <Helmet>
                 <title>Artistic Journeys || Admin Home</title>
             </Helmet>

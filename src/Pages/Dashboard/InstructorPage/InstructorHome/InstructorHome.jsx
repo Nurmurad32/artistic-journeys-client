@@ -31,14 +31,14 @@ const InstructorHome = () => {
                     <div className="stat">
                         <div className="stat-title">All My Classes</div>
                         <div className="stat-value">{classes.filter((cls) => cls.instructoremail === user?.email).length}</div>
-                        <div className="stat-desc">10% more than last month</div>
+                        {/* <div className="stat-desc">10% more than last month</div> */}
                     </div>
                 </div>
                 <div className="stats shadow bg-red-500">
                     <div className="stat">
                         <div className="stat-title">Waiting for Approval</div>
                         <div className="stat-value">{classes.filter((cls) => cls.status === 'pending' && cls.instructoremail === user?.email).length}</div>
-                        <div className="stat-desc">10% more than last month</div>
+                        {/* <div className="stat-desc">10% more than last month</div> */}
                     </div>
                 </div>
             </div>

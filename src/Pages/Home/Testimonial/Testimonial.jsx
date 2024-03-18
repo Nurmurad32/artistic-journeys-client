@@ -14,8 +14,8 @@ const Testimonial = () => {
     return (
         <div className='testimonial-bg'>
             <div className="text-center py-20">
-                <p><small className="text-[#FCAF5D] text-xl">Testimonials</small></p>
-                <Bounce> <h2 className="text-4xl text-white">What Our Students Say</h2></Bounce>
+                <p><small className="text-[#FCAF5D] text-2xl">Testimonials</small></p>
+                <Bounce> <h2 className="text-4xl text-white section-underline p-3">What Our Students Say</h2></Bounce>
                
             </div>
             <div>

@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { app } from "../Firebase/Firebase.config";
 import axios from "axios";
 
@@ -24,16 +24,20 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
-    const googleSignIn = () =>{
+    const googleSignIn = () => {
         setLoading(true)
         return signInWithPopup(auth, googleProvider)
     }
+    const passwordReset = (email) => {
+        setLoading(true)
+        return sendPasswordResetEmail(auth, email)
+    }
 
-    const updateUserProfile = (name, photo) =>{
+    const updateUserProfile = (name, photo) => {
         setLoading(true);
         return updateProfile(auth.currentUser, {
             displayName: name, photoURL: photo
-          })
+        })
     }
 
     const logOut = () => {
@@ -41,28 +45,32 @@ const AuthProvider = ({ children }) => {
         return signOut(auth)
     }
 
-    useEffect(()=>{
-        const unsubscribe = onAuthStateChanged(auth, currentUser=>{
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser)
             console.log('Current user:', currentUser);
 
             // Get & Set Token
-            if(currentUser){
-                axios.post('http://localhost:3000/jwt', {email: currentUser.email})
-                .then(data => {
-                    // console.log(data.data.token)
-                    localStorage.setItem('access-token', data.data.token)
-                    setLoading(false);
-                })
+            if (currentUser) {
+                // axios.post('https://artistic-journeys-server.vercel.app/jwt', {email: currentUser.email})
+                axios.post('http://localhost:3000/jwt', { email: currentUser.email })
+                    .then(res => {
+                        // console.log(data.data.token)
+                        if (res.data.token) {
+                            localStorage.setItem('access-token', res.data.token)
+                            setLoading(false);
+                        }
+                    })
             }
-            else{
+            else {
                 localStorage.removeItem('access-token')
+                setLoading(false);
             }
         })
         return () => {
             return unsubscribe();
         }
-    },[])
+    }, [])
 
 
     const authInfo = {
@@ -72,7 +80,8 @@ const AuthProvider = ({ children }) => {
         signIn,
         googleSignIn,
         updateUserProfile,
-        logOut
+        logOut,
+        passwordReset
     }
 
     return (

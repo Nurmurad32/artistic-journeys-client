@@ -23,23 +23,23 @@ const Instructor = () => {
                 <title>Artistic Journeys || Instructors</title>
             </Helmet>
             <PageTitle heading={"Instructors"} subHeading={"Home > Instructors"}></PageTitle>
-            <div className="text-center my-16">
+            {/* <div className="text-center my-16">
                 <Bounce>
                     <p><small className="text-[#FCAF5D] text-xl">All Our</small></p>
                     <h2 className="text-4xl"> Instructors</h2>
                 </Bounce>
-            </div>
-            <div className="grid grid-cols-2 gap-8">
+            </div> */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-screen-xl mx-auto p-2">
                 <Fade delay={2}>
                     {
                         filterInstructors.map(user =>
 
-                            <div key={user._id} className="card card-side  bg-base-100 shadow-xl p-4 mb-8">
+                            <div key={user._id} className=" shadow-sm bg-base-100 p-2 md:p-4 mb-8 flex flex-col justify-center items-center rounded-md">
                                 <figure><img className="h-48 w-48 rounded-full " src={user?.image} alt="Instructor Image" /></figure>
-                                <div className="card-body">
-                                    <h2 className="card-title">{user.name}</h2>
-                                    <p>{user.email}</p>
-                                    <p>Gender: {user.gender}</p>
+                                <div className="card-body text-center">
+                                    <h2 className=" text-center">{user.name}</h2>
+                                    <p className="text-center">{user.email}</p>
+                                    {/* <p>Gender: {user.gender}</p> */}
 
                                 </div>
                             </div>

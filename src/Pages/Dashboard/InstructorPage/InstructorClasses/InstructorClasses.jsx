@@ -22,6 +22,8 @@ const InstructorClasses = () => {
     const filterMyClasses = classes.filter((cls) => cls.status === 'approved' && cls.instructoremail === user?.email)
     console.log('filter my class', filterMyClasses)
 
+    const notApprovedMyClasses = classes.filter((cls) => cls.status === 'pending' && cls.instructoremail === user?.email)
+
     const handleDelete = cls => {
         Swal.fire({
             title: 'Are you sure?',
@@ -51,21 +53,21 @@ const InstructorClasses = () => {
         })
     }
     return (
-        <div className='w-full'>
+        <div className=' md:px-8'>
             <Helmet>
                 <title>Artistic Journeys || All My Classes</title>
             </Helmet>
             <SectionTitle heading={"My Classes"}></SectionTitle>
-            <div className="flex justify-between px-8">
-                <h3 className="text-xl font-semibold my-4 bg-green-100 p-4 rounded-xl">Total Classes: {classes.length}</h3>
-                <h3 className="text-xl font-semibold my-4 bg-red-500 p-4 rounded-xl">Waiting for Approval: {filterMyClasses.length}</h3>
+            <div className="flex justify-between px-1 md:px-8">
+                <h3 className="text-sm md:text-xl font-semibold my-4 bg-green-100 p-4 rounded-xl">Total Classes: {filterMyClasses.length}</h3>
+                <h3 className="text-sm md:text-xl font-semibold my-4 bg-red-500 p-4 rounded-xl">Waiting for Approval: {notApprovedMyClasses.length}</h3>
             </div>
 
-            <div className="">
+            <div className="overflow-x-auto hidden md:block">
                 <table className="table">
                     {/* head */}
                     <thead>
-                        <tr>
+                        <tr className="text-sm md:text-lg bg-[#D05A32] text-white ">
                             <th>#</th>
                             <th>Image</th>
                             <th>Title</th>
@@ -78,31 +80,104 @@ const InstructorClasses = () => {
                     </thead>
                     <tbody>
                         {/* row 1 */}
-                        {
-                            filterMyClasses.map((cls, index) => <>
+                        {filterMyClasses.length < 1
+                            ? (
+                                <tr key="no-data">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>No Data</td>
+                                </tr>
+                            )
+                            : (
+                                filterMyClasses.map((cls, index) => (
+                                    <tr key={cls._id}>
+                                        <th>{index + 1}</th>
+                                        <td>
+                                            <div className="avatar">
+                                                <div className="mask mask-squircle w-12 h-12">
+                                                    <img src={cls.image} alt="Avatar Tailwind CSS Component" />
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{cls.title}</td>
+                                        <td>{cls.instructoremail}</td>
+                                        <td>{cls.seat}</td>
+                                        <td>{cls.price}</td>
+                                        <td><label className="p-4 rounded m-1 bg-green-600 text-white">{cls.status}</label></td>
+
+                                        <td>
+                                            <p onClick={() => handleDelete(cls)} className="text-red-600"><FaTrashAlt></FaTrashAlt></p>
+                                        </td>
+                                    </tr>
+                                ))
+                            )
+                        }
+                    </tbody>
+                </table>
+            </div>
+            {/* For Mobile */}
+            <div className="overflow-x-auto block md:hidden">
+                <table className="table table-xs">
+                    {/* head */}
+                    <thead>
+                        <tr className="text-sm md:text-lg bg-[#D05A32] text-white ">
+                            <th>#</th>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* row 1 */}
+                        {filterMyClasses.length < 1
+                            ? (
+                                <tr key="no-data">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>No Data</td>
+                                </tr>
+                            )
+                            : (
+                                filterMyClasses.map((cls, index) => <>
                                 <tr key={cls._id}>
-                                    <th>{index + 1}</th>
+                                    <th>
+                                        {index + 1}
+                                    </th>
                                     <td>
                                         <div className="avatar">
-                                            <div className="mask mask-squircle w-12 h-12">
+                                            <div className="mask mask-squircle w-8 h-8">
                                                 <img src={cls.image} alt="Avatar Tailwind CSS Component" />
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{cls.title}</td>
-                                    <td>{cls.instructoremail}</td>
-                                    <td>{cls.seat}</td>
-                                    <td>{cls.price}</td>
-                                    <td><label className="p-4 rounded m-1 bg-green-600 text-white">{cls.status}</label></td>
-
+                                    {/* <td className="text-xs md:text-sm">{cls.title}</td> */}
                                     <td>
-                                        <button onClick={() => handleDelete(cls)} className="btn btn-ghost bg-red-600 text-white"><FaTrashAlt></FaTrashAlt></button>
+                                        <div className="flex items-center gap-3">
+                                            <div>
+                                                <div className="font-bold">{cls.title}</div>
+                                                {/* <div className="text-sm opacity-50">{cls.instructoremail}</div> */}
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="flex items-center gap-3">
+                                            <div>
+                                                <div className="font-bold">$ {cls.price}</div>
+                                                <div className="text-sm opacity-50">Se.:{cls.seat}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="text-xs md:text-sm"><p className="p-2 rounded m-1 bg-orange-600 text-white">{cls.status}</p></td>
+                                    <td>
+                                        <p onClick={() => handleDelete(cls)} className="text-red-600"><FaTrashAlt></FaTrashAlt></p>
                                     </td>
                                 </tr>
-                            </>
-                            )
-                        }
-
+                            </>)
+                            )}
                     </tbody>
                 </table>
             </div>

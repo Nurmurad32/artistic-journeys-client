@@ -1,18 +1,20 @@
 .bg-img {
-    background-image: url('../../assets/sectionTitleBG.jpg');
+    /* background-image: url('../../assets/page-title-bg.jpg'); */
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../../assets/page-title-bg.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
-    height: 450px;
+    background-position: bottom center;
+    height: 350px;
     width: 100%;
     /* filter: brightness(50%); */
+    /* color: white; */
 }
 
-.title-bg{
+/* .title-bg{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
     height: 550px;
-}
+} */

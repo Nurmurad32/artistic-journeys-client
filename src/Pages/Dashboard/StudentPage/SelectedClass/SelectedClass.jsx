@@ -41,10 +41,10 @@ const SelectedClass = () => {
         })
     }
     const handlePay = (cls) => {
-        navigate('/dashboard/payment', { state: { title: cls.title , price: cls.price, cart_id: cls._id, classItemId: cls.classItemId } })
+        navigate('/dashboard/payment', { state: { title: cls.title, price: cls.price, cart_id: cls._id, classItemId: cls.classItemId } })
     }
     return (
-        <div className='w-full'>
+        <div className=''>
             <Helmet>
                 <title>Artistic Journeys || Selected Classes</title>
             </Helmet>
@@ -54,15 +54,15 @@ const SelectedClass = () => {
 
             </div> */}
 
-            <div className="">
-                <table className="table">
+            <div className="overflow-x-auto hidden md:block">
+                <table className="table table-sm">
                     {/* head */}
                     <thead>
-                        <tr>
+                        <tr className="text-sm md:text-lg bg-[#D05A32] text-white ">
                             <th>#</th>
                             <th>Image</th>
                             <th>Title</th>
-                            <th>Instructor Name</th>
+                            {/* <th>Instructor Name</th> */}
                             <th>Price</th>
                             <th>Payment</th>
                             <th>Action</th>
@@ -76,28 +76,70 @@ const SelectedClass = () => {
                                     <th>{index + 1}</th>
                                     <td>
                                         <div className="avatar">
-                                            <div className="mask mask-squircle w-12 h-12">
+                                            <div className="mask mask-squircle w-8 h-8">
                                                 <img src={cls.image} alt="Avatar Tailwind CSS Component" />
                                             </div>
                                         </div>
                                     </td>
                                     <td>{cls.title}</td>
-                                    <td>{cls.instructorname}</td>
+                                    {/* <td>{cls.instructorname}</td> */}
                                     <td>{cls.price}</td>
                                     <td>
                                         {/* <Link to='/dashboard/payment'>
                                             <label onClick={handlePay} className="p-4 rounded m-1 bg-yellow-600 text-white">PAY</label>
                                         </Link> */}
-                                        <label onClick={()=>handlePay(cls)} className="p-4 rounded m-1 bg-yellow-600 text-white">PAY</label>
+                                        <label onClick={() => handlePay(cls)} className="px-3 py-2 rounded m-1 bg-yellow-600 text-white text-center">PAY</label>
                                     </td>
                                     <td>
-                                        <button onClick={() => handleDelete(cls)} className="btn btn-ghost bg-red-600 text-white"><FaTrashAlt></FaTrashAlt></button>
+                                        <p onClick={() => handleDelete(cls)} className=" text-red-600 cursour"><FaTrashAlt></FaTrashAlt></p>
                                     </td>
                                 </tr>
                             </>
                             )
                         }
 
+                    </tbody>
+                </table>
+            </div>
+            {/* For Mobile */}
+            <div className="overflow-x-auto block md:hidden">
+                <table className="table table-xs">
+                    {/* head */}
+                    <thead>
+                        <tr className="text-sm md:text-lg bg-[#D05A32] text-white ">
+                            <th></th>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Pay</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* row 1 */}
+                        {
+                            cart.map((cls, index) => <>
+                                <tr key={cls._id}>
+                                    <th>
+                                    {index + 1}
+                                    </th>
+                                    <td>
+                                        <div className="flex items-center gap-3">
+                                            <div>
+                                                <div className="font-bold">{cls.title}</div>
+                                                <div className="text-sm opacity-50">Ins.:{cls.instructorname}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>{cls.price}</td>
+                                    <td>
+                                        <p onClick={() => handlePay(cls)} className="px-3 py-2 rounded m-1 bg-yellow-600 text-white text-center">PAY</p>
+                                    </td>
+                                    <td className="text-center ">
+                                        <p onClick={() => handleDelete(cls)} className=" text-red-600 cursour"><FaTrashAlt></FaTrashAlt></p>
+                                    </td>
+                                </tr>
+                            </>
+                            )}
                     </tbody>
                 </table>
             </div>

@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import useAdminOrInstructor from "../hooks/useAdminOrInstructor";
+import PageLoading from "../Components/PageLoadong/PageLoading";
 
 const AdminRoute = ({children}) => {
     const {user, loading} = useAuth()
@@ -10,7 +11,8 @@ const AdminRoute = ({children}) => {
     console.log("From Admin Route",isAdminOrInstructor)
 
     if(loading || isAdminOrInstructorLoading){
-        return <progress className="progress w-56"></progress>
+        // return <progress className="progress w-56"></progress>
+        return <PageLoading />
     }
     if(user && isAdminOrInstructor === "admin"){
         return children

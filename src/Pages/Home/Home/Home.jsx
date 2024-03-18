@@ -3,6 +3,7 @@ import Banner from "../Banner/Banner";
 import PopularCourses from "../PopularCourses/PopularCourses";
 import PopularInstructor from "../PopularInstructor/PopularInstructor";
 import Testimonial from "../Testimonial/Testimonial";
+import WhyUs from "../WhyUs/WhyUs";
 
 const Home = () => {
     return (
@@ -11,7 +12,10 @@ const Home = () => {
                 <title>Artistic Journeys || Home</title>
             </Helmet>
             <Banner></Banner>
-            <PopularCourses></PopularCourses>
+            <div className="max-w-screen-xl mx-auto">
+                <WhyUs></WhyUs>
+                <PopularCourses></PopularCourses>
+            </div>
             <PopularInstructor></PopularInstructor>
             <Testimonial></Testimonial>
         </>

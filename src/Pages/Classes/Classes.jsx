@@ -50,6 +50,7 @@ const Classes = () => {
                             timer: 2000
                         })
                     }
+                    refetch()
                 })
         }
         else {
@@ -68,6 +69,15 @@ const Classes = () => {
         }
     }
 
+    const { data: users = [] } =
+        useQuery(['users'], async () => {
+            const usersIn = await axiosSecure.get('/users')
+            console.log(usersIn.data)
+            return usersIn.data;
+        })
+    const filterInstructors = users.filter(user => user.role === 'instructor')
+    console.log(filterInstructors)
+
     const approvedClasses = classes.filter(cls => cls.status === 'approved')
     console.log(approvedClasses)
     return (
@@ -75,22 +85,24 @@ const Classes = () => {
             <Helmet>
                 <title>Artistic Journeys || All Courses</title>
             </Helmet>
-            <PageTitle heading={"Classes"} subHeading={"Home > Classes"}></PageTitle>
-            <div className="text-center my-16">
+            <PageTitle heading={"Courses"} subHeading={"Home > Courses"}></PageTitle>
+            {/* <div className="text-center my-16">
                 <Bounce>
                     <p><small className="text-[#FCAF5D] text-xl">All Our</small></p>
                     <h2 className="text-4xl"> Courses</h2>
                 </Bounce>
-            </div>
+            </div> */}
 
-            <div className="grid grid-cols-3 gap-8">
-                <Fade delay={2}>
-                    {
-                        approvedClasses.map(cls =>
-                            <ClassesCard key={cls._id} cls={cls} handleAddToCard={handleAddToCard}></ClassesCard>
-                        )
-                    }
-                </Fade>
+            <div className=" ">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-16 max-w-screen-xl mx-auto p-3 md:p-0">
+                    <Fade delay={2}>
+                        {
+                            approvedClasses.map(cls =>
+                                <ClassesCard key={cls._id} cls={cls} handleAddToCard={handleAddToCard} filterInstructors={filterInstructors}></ClassesCard>
+                            )
+                        }
+                    </Fade>
+                </div>
             </div>
 
         </div>

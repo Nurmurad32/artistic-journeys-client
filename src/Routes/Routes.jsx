@@ -22,6 +22,7 @@ import EnrolledClass from "../Pages/Dashboard/StudentPage/EnrolledClass/Enrolled
 import AdminRoute from "./AdminRoute";
 import InstructorRoute from './InstructorRoute'
 import NotFound from "../Pages/404Page/NotFound";
+import AllEnrolled from "../Pages/Dashboard/AdminPage/AllEnrolled/AllEnrolled";
 
 export const router = createBrowserRouter([
         {
@@ -71,6 +72,10 @@ export const router = createBrowserRouter([
               path: "manageclasses",
               element: <AdminRoute><ManageClasses></ManageClasses></AdminRoute>,
             },
+            {
+              path: "allenrolled",
+              element: <AdminRoute> <AllEnrolled></AllEnrolled> </AdminRoute>,
+            },
             // Instructor Routes
             {
               path: "instructorhome",
@@ -88,6 +93,7 @@ export const router = createBrowserRouter([
               path: "instructorpendingclasses",
               element: <InstructorRoute><PendingClasses></PendingClasses></InstructorRoute>,
             },
+            
             // Student Routes
             {
               path: "studenthome",

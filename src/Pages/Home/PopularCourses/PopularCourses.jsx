@@ -68,18 +68,26 @@ const PopularCourses = () => {
         }
     }
 
+    const { data: users = [] } =
+    useQuery(['users'], async () => {
+        const usersIn = await axiosSecure.get('/users')
+        console.log(usersIn.data)
+        return usersIn.data;
+    })
+const filterInstructors = users.filter(user => user.role === 'instructor')
+
     return (
         <div>
             <div className="text-center my-16">
-                <p><small className="text-[#FCAF5D] text-xl">Our</small></p>
-                <Bounce><h2 className="text-4xl">Popular Courses</h2></Bounce>
+                <p><small className="text-[#FCAF5D] text-2xl">Our</small></p>
+                <Bounce><h2 className="text-4xl section-underline p-3">Popular Courses</h2></Bounce>
                 
             </div>
             <Fade>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 p-4">
                 {
                     classes.slice(0, 6).map(cls =>
-                        <ClassesCard key={cls.classItemId} cls={cls.classItem} handleAddToCard={handleAddToCard}></ClassesCard>
+                        <ClassesCard key={cls.classItemId} cls={cls.classItem} handleAddToCard={handleAddToCard} filterInstructors={filterInstructors}></ClassesCard>
                     )
                 }
 

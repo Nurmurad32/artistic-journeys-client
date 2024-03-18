@@ -39,7 +39,7 @@ const SocialLogin = () => {
 
     return (
         <div>
-            <div className="divider">OR</div>
+            
             <div className="w-full text-center my-4">
                 <button onClick={handleGoogleSignIn} className="btn btn-circle ">
                     <FcGoogle></FcGoogle>

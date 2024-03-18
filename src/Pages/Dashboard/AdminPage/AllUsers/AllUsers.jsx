@@ -65,17 +65,17 @@ const AllUsers = () => {
         })
     }
     return (
-        <div className='w-full'>
+        <div className='md:px-8'>
             <Helmet>
                 <title>Artistic Journeys || Manage Users</title>
             </Helmet>
             <SectionTitle heading={"Admin - Manage Users"}></SectionTitle>
             {/* <h3 className="text-3xl font-semibold my-4">Total User: {users.length}</h3> */}
-            <div className="">
+            <div className="overflow-x-auto hidden md:block">
                 <table className="table">
                     {/* head */}
                     <thead>
-                        <tr>
+                        <tr className="text-xs md:text-sm bg-[#D05A32] text-white ">
                             <th>#</th>
                             <th>image</th>
                             <th>Name</th>
@@ -97,58 +97,148 @@ const AllUsers = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{user.name}</td>
-                                    <td>{user.email}</td>
+                                    <td className='text-xs md:text-sm'>{user?.name}</td>
+                                    <td className='text-xs md:text-sm'><small>{user?.email}</small></td>
                                     <td className="dropdown dropdown-hover">
-                                        {user.role === "student" && (
-                                            <>
-                                                <label tabIndex={0} className="btn m-1 bg-">{user.role}</label>
-                                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                                    <li>
-                                                        <button onClick={() => handleRole(user, "admin")} className="btn btn-ghost bg-white text-black">admin</button>
-                                                    </li>
-                                                    <li>
-                                                        <button onClick={() => handleRole(user, "instructor")} className="btn btn-ghost bg-white text-black">instructor</button>
-                                                    </li>
-                                                </ul>
-                                            </>
-                                        )}
+                                        <small>
+                                            {user?.role === "student" && (
+                                                <>
+                                                    <label tabIndex={0} className="m-1 p-1 rounded-md bg-">{user?.role}</label>
+                                                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "admin")} className=" bg-white text-black">admin</p>
+                                                        </li>
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "instructor")} className=" bg-white text-black">instructor</p>
+                                                        </li>
+                                                    </ul>
+                                                </>
+                                            )}
 
-                                        {user.role === "admin" && (
-                                            <>
-                                                <label tabIndex={0} className="btn m-1 bg-slate-400">{user.role}</label>
-                                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                                    <li>
-                                                        <button onClick={() => handleRole(user, "student")} className="btn btn-ghost bg-white text-black">student</button>
-                                                    </li>
-                                                    <li>
-                                                        <button onClick={() => handleRole(user, "instructor")} className="btn btn-ghost bg-white text-black">instructor</button>
-                                                    </li>
-                                                </ul>
-                                            </>
-                                        )}
+                                            {user?.role === "admin" && (
+                                                <>
+                                                    <label tabIndex={0} className="m-1 p-1 rounded-md text-white bg-slate-400">{user?.role}</label>
+                                                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box ">
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "student")} className=" bg-white text-black">student</p>
+                                                        </li>
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "instructor")} className=" bg-white text-black">instructor</p>
+                                                        </li>
+                                                    </ul>
+                                                </>
+                                            )}
 
-                                        {user.role === "instructor" && (
-                                            <>
-                                                <label tabIndex={0} className="btn m-1 bg-green-400">{user.role}</label>
-                                                <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                                    <li>
-                                                        <button onClick={() => handleRole(user, "admin")} className="btn btn-ghost bg-white text-black">admin</button>
-                                                    </li>
-                                                    <li>
-                                                        <button onClick={() => handleRole(user, "student")} className="btn btn-ghost bg-white text-black">student</button>
-                                                    </li>
-                                                </ul>
-                                            </>
-                                        )}
+                                            {user?.role === "instructor" && (
+                                                <>
+                                                    <label tabIndex={0} className="m-1 p-1 rounded-md bg-green-400">{user?.role}</label>
+                                                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "admin")} className=" bg-white text-black">admin</p>
+                                                        </li>
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "student")} className=" bg-white text-black">student</p>
+                                                        </li>
+                                                    </ul>
+                                                </>
+                                            )}
+                                        </small>
                                     </td>
-                                    <td>
-                                        <button onClick={() => handleDelete(user)} className="btn btn-ghost bg-red-600 text-white"><FaTrashAlt></FaTrashAlt></button>
+                                    <td className=''>
+                                        <p onClick={() => handleDelete(user)} className=" text-red-600"><FaTrashAlt></FaTrashAlt></p>
                                     </td>
                                 </tr>
                             )
                         }
 
+                    </tbody>
+                </table>
+            </div>
+            {/* For mobile */}
+            <div className="overflow-x-auto block md:hidden">
+                <table className="table table-xs">
+                    {/* head */}
+                    <thead>
+                        <tr className="text-xs md:text-lg bg-[#D05A32] text-white ">
+                            <th>#</th>
+                            <th>image</th>
+                            <th>Info</th>
+                            <th>Role</th>
+                            <th>Act.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* row 1 */}
+                        {
+                            users.map((user, index) => <>
+                                <tr key={index + 1}>
+                                    <th className="text-xs md:text-lg">{index + 1}</th>
+                                    <td>
+                                        <div className="avatar">
+                                            <div className="mask mask-squircle w-8 h-8">
+                                                <img src={user.image} alt="Image of this class" />
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="flex items-center gap-3">
+                                            <div>
+                                                <div className="font-bold">{user.name}</div>
+                                                <div className="text-sm opacity-50"><small>{user.email}</small></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="dropdown dropdown-hover">
+                                        <small>
+                                            {user?.role === "student" && (
+                                                <>
+                                                    <label tabIndex={0} className="m-1 p-1 rounded-md bg-">{user?.role}</label>
+                                                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "admin")} className=" bg-white text-black">admin</p>
+                                                        </li>
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "instructor")} className=" bg-white text-black">instructor</p>
+                                                        </li>
+                                                    </ul>
+                                                </>
+                                            )}
+
+                                            {user?.role === "admin" && (
+                                                <>
+                                                    <label tabIndex={0} className="m-1 p-1 rounded-md text-white bg-slate-400">{user?.role}</label>
+                                                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box ">
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "student")} className=" bg-white text-black">student</p>
+                                                        </li>
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "instructor")} className=" bg-white text-black">instructor</p>
+                                                        </li>
+                                                    </ul>
+                                                </>
+                                            )}
+
+                                            {user?.role === "instructor" && (
+                                                <>
+                                                    <label tabIndex={0} className="m-1 p-1 rounded-md bg-green-400">{user?.role}</label>
+                                                    <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box">
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "admin")} className=" bg-white text-black">admin</p>
+                                                        </li>
+                                                        <li>
+                                                            <p onClick={() => handleRole(user, "student")} className=" bg-white text-black">student</p>
+                                                        </li>
+                                                    </ul>
+                                                </>
+                                            )}
+                                        </small>
+                                    </td>
+                                    <td className=''>
+                                        <p onClick={() => handleDelete(user)} className=" text-red-600"><FaTrashAlt></FaTrashAlt></p>
+                                    </td>
+                                </tr>
+                            </>
+                            )}
                     </tbody>
                 </table>
             </div>
